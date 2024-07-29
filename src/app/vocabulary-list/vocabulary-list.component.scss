@@ -1,0 +1,72 @@
+.vocabulary-table-wrapper {
+   overflow-y: auto;
+}
+
+/* Scrollbarning umumiy ko'rinishi */
+.vocabulary-table-wrapper::-webkit-scrollbar {
+   width: 8px;
+}
+
+/* Scrollbar track */
+.vocabulary-table-wrapper::-webkit-scrollbar-track {
+   background: #f0f0f0;
+   border-radius: 10px;
+}
+
+
+.vocabulary-table-wrapper::-webkit-scrollbar-thumb {
+   background: linear-gradient(135deg, #6a11cb, #2575fc);
+   border-radius: 10px;
+   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+
+.vocabulary-table-wrapper::-webkit-scrollbar-thumb:hover {
+   background: linear-gradient(135deg, #5a09d1, #1e90ff);
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.ngx-pagination {
+   padding-left: 0;
+}
+
+.ngx-pagination .current {
+   display: inline-grid;
+   place-items: center;
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   background: linear-gradient(135deg, #6a11cb, #2575fc)!important;
+   transition: all 0.3s ease;
+}
+
+.ngx-pagination a {
+   display: grid !important;
+   place-items: center !important;
+   width: 40px;
+   height: 40px;
+   border-radius: 50% !important;
+}
+
+.ngx-pagination .pagination-next a:after {
+   margin-left: 0 !important;
+}
+
+.ngx-pagination .pagination-previous a:before {
+   margin-right: 0 !important;
+}
+
+.skeleton {
+   background: linear-gradient(90deg, #f8f8f8 8%, #ffffff 18%, #f8f8f8 33%);
+   background-size: 200% 100%;
+   animation: 1.5s shine linear infinite;
+   overflow: hidden;
+   background-attachment: fixed;
+}
+
+@keyframes shine {
+   to {
+      background-position-x: -200%;
+   }
+}

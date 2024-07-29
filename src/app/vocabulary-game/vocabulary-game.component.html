@@ -1,0 +1,54 @@
+<div class="container vh-100 d-flex flex-column">
+    <div class="d-flex align-items-center justify-content-between px-1 py-3 mb-4">
+        <div>
+            <h3 class="fs-3 text-uppercase">Game</h3>
+            <div class="text-secondary" style="font-size: 12px; margin-top: -5px">
+                Interval: {{ intervals }}
+            </div>
+        </div>
+
+        <div class="d-flex w-75 gap-2">
+            <button class="btn btn-outline-info w-50 fw-bold fs-4">
+              {{ resolvedQuestionsCount }} / {{ totalQuestionsCount }}
+            </button>
+            <button class="btn btn-danger w-50 fs-4" routerLink="/">Exit</button>
+        </div>
+    </div>
+
+    <div [class.visually-hidden]="!currentQuestion" class="fs-4">
+        <label class="d-block" for="text">{{ resolvedQuestionsCount }}) <strong>{{ currentQuestion?.definition }}</strong></label>
+
+        <div class="mt-2 border rounded-1 p-3 fs-6 bg-light" *ngIf="currentQuestion.sentences">
+            {{ currentQuestion?.sentences!| hideWord: currentQuestion.word }}
+        </div>
+
+        <div class="mt-2 border-danger px-3 py-2 bg-danger text-white fs-4 fw-bold" *ngIf="rightAnswer">
+            {{ rightAnswer }}
+        </div>
+
+        <div class="pt-2 position-relative">
+            <textarea
+                    id="text"
+                    style="padding-right: 70px"
+                    rows="5"
+                    #answerInput
+                    [(ngModel)]="answerWord"
+                    class="form-control fs-4"
+                    placeholder="Type answer and press Enter"
+                    (keydown.enter)="$event.preventDefault(); answer()"
+            ></textarea>
+
+            <button (click)="speech()"
+                    [class.animated]="recording"
+                    class="btn btn-primary rounded-circle position-absolute"
+                    style="width: 60px; height: 60px; top: 10px; right: 2px">
+                <img [ngSrc]="'assets/microphone.svg'" alt="" height="24" width="24">
+            </button>
+        </div>
+    </div>
+
+
+    <audio preload="metadata" #success src="assets/success.mp3" class="visually-hidden"></audio>
+    <audio preload="metadata" #fail src="assets/fail.mp3" class="visually-hidden"></audio>
+</div>
+

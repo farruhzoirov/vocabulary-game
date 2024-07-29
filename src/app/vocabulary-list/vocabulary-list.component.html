@@ -1,0 +1,177 @@
+<div class="container vh-100 d-flex flex-column">
+    <div class="d-flex align-items-center justify-content-between px-1 py-3">
+        <div>
+            <h3 class="fs-3 mb-0 text-uppercase gradient-text">Vocabularies</h3>
+            <div class="text-secondary " style="font-size: 12px; margin-top: -5px">Total
+                count: {{ vocabularies?.length }}
+            </div>
+        </div>
+
+        <div class="d-flex w-50 gap-2">
+            <button class="btn btn-primary w-50 rounded p-2" (click)="toggleVocabularyForm()"> New +</button>
+            <button class="btn btn-primary w-50 rounded p-2" (click)="play()">Play &#9658;</button>
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 px-1 mb-3" *ngIf="showSearchInput">
+        <input class="form-control rounded" type="text" placeholder="Search word..." [(ngModel)]="search"
+               (input)="searchWord()">
+        <input class="form-control rounded" type="number" placeholder="Page number" #pageInput
+               (keydown.enter)="currentPage = +pageInput.value">
+    </div>
+
+    <div class="d-flex align-items-start justify-content-between mb-1 px-1 position-relative">
+        <pagination-controls
+                [maxSize]="5"
+                (pageChange)="currentPage = $event"
+                [previousLabel]="''"
+                [nextLabel]="''"
+        ></pagination-controls>
+
+        <div class="d-flex">
+            <button class="btn btn-primary rounded me-2" (click)="toggleSearchInput()">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"
+                     version="1.1" id="Capa_1" width="20px" height="20px" viewBox="0 0 940.2 940.2" xml:space="preserve">
+                    <g>
+                        <path d="M414.226,674.899c0-49.399,15.5-95.3,41.9-133h-265.7c-13.8,0-25-11.199-25-25c0-13.8,11.2-25,25-25h313.1   c39.5-31,89.299-49.5,143.299-49.5c18.701,0,36.9,2.2,54.4,6.4V52.9c0-29.2-23.699-52.9-52.9-52.9H364.626h-94.301v17.5   c0.2,1.8,0.301,3.7,0.301,5.6V168c0,41.1-33.4,74.5-74.5,74.5h-144.9c-1.5,0-3.1-0.1-4.6-0.2h-18.5v554c0,29.2,23.7,52.9,52.9,52.9   h283.601h128.4C444.825,806.5,414.226,744.2,414.226,674.899z M190.426,356.3h369.899c13.801,0,25,11.2,25,25s-11.199,25-25,25   H190.426c-13.8,0-25-11.2-25-25S176.625,356.3,190.426,356.3z M375.325,669.399h-185c-13.8,0-25-11.199-25-25c0-13.8,11.2-25,25-25   h185c13.801,0,25,11.2,25,25C400.325,658.2,389.126,669.399,375.325,669.399z"/>
+                        <path d="M51.226,212.5h144.9c24.6,0,44.5-19.9,44.5-44.5V23.1c0-13.4-11-22.3-22.4-22.3c-5.5,0-11,2-15.6,6.6l-167.2,167.1   C21.426,188.5,31.326,212.5,51.226,212.5z"/>
+                        <path d="M835.526,810.6l-10.801-10.8L813.926,789c22.299-32.5,35.299-71.8,35.299-114.2c0-81.6-48.5-152-118.1-184.1   c-4.9-2.301-9.9-4.301-15-6.2c-4.9-1.8-9.9-3.4-15-4.8c-17.301-4.801-35.5-7.4-54.4-7.4c-31,0-60.4,7-86.6,19.5   c-25.301,12-47.699,29.1-65.9,50c-31.099,35.6-49.9,82.1-49.9,133c0,74.1,40,139,99.5,174.3c9.801,5.8,20.201,10.9,31.102,15   c22.398,8.5,46.6,13.2,72,13.2c8.299,0,16.398-0.5,24.398-1.5c33-4,63.5-15.9,89.701-33.9l10.699,10.9l10.701,10.7l65.699,65.7   c7.301,7.3,16.9,11,26.5,11s19.199-3.7,26.5-11c14.6-14.601,14.6-38.4,0-53L835.526,810.6z M646.825,547.399   c19.4,0,37.9,4.4,54.4,12.2c5.201,2.5,10.201,5.3,15,8.4c5.301,3.399,10.301,7.3,15,11.399c26.4,23.4,43.1,57.5,43.1,95.5   s-16.699,72.101-43.1,95.5c-4.699,4.2-9.699,8-15,11.4c-4.799,3.1-9.799,5.9-15,8.4c-16.5,7.8-34.9,12.199-54.4,12.199   c-70.299,0-127.5-57.199-127.5-127.5C519.325,604.6,576.426,547.399,646.825,547.399z"/>
+                    </g>
+                </svg>
+            </button>
+
+
+            <button  class="btn btn-primary rounded " (click)="toggleListening()">
+                <svg [ngClass]="{'pulse-animation': isListening}" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff" version="1.1"
+                     id="Capa_1" width="20px" height="20px" viewBox="0 0 287.386 287.386" xml:space="preserve">
+                <g>
+                    <g>
+                        <path d="M62.743,155.437v98.42c0,5.867,4.741,10.605,10.605,10.605c5.854,0,10.605-4.738,10.605-10.605v-98.42    c0-5.856-4.751-10.605-10.605-10.605C67.484,144.832,62.743,149.576,62.743,155.437z"/>
+                        <path d="M29.456,264.582h23.351v-116.85c0.064-0.56,0.166-1.119,0.166-1.693c0-50.412,40.69-91.42,90.698-91.42    c50.002,0,90.692,41.008,90.692,91.42c0,0.771,0.113,1.518,0.228,2.263v116.28h23.354c16.254,0,29.442-13.64,29.442-30.469    v-60.936c0-13.878-8.989-25.57-21.261-29.249c-1.129-66.971-55.608-121.124-122.45-121.124    c-66.86,0-121.347,54.158-122.465,121.15C8.956,147.638,0,159.32,0,173.187v60.926C0,250.932,13.187,264.582,29.456,264.582z"/>
+                        <path d="M203.454,155.437v98.42c0,5.867,4.748,10.605,10.604,10.605s10.604-4.738,10.604-10.605v-98.42    c0-5.856-4.748-10.605-10.604-10.605C208.191,144.832,203.454,149.576,203.454,155.437z"/>
+                    </g>
+                </g>
+            </svg>
+            </button>
+        </div>
+    </div>
+    <form class="row gap-2 pt-1 gap-md-0 pb-3 px-1" [class.visually-hidden]="!showVocabularyForm"
+          [formGroup]="vocabularyForm"
+          (ngSubmit)="addNewWord()">
+        <div class="col-md-4">
+                  <textarea
+                      #wordTextArea
+                      class="form-control rounded"
+                      placeholder="Word"
+                      [formControlName]="'word'"
+                      (keydown.enter)="$event.preventDefault(); addNewWord()"
+                  ></textarea>
+        </div>
+
+        <div class="col-md-4">
+                    <textarea
+                            class="form-control rounded"
+                            placeholder="Definition"
+                            [formControlName]="'definition'"
+                            (keydown.enter)="$event.preventDefault(); addNewWord()"
+                    ></textarea>
+        </div>
+
+        <div class="col-md-4">
+                <textarea
+                        class="form-control rounded"
+                        placeholder="Sentences"
+                        [formControlName]="'sentences'"
+                        (keydown.enter)="$event.preventDefault(); addNewWord()"
+                ></textarea>
+        </div>
+    </form>
+
+    <div class="d-flex flex-column flex-grow-1 gap-1 px-1 pb-3 overflow-auto vocabulary-table-wrapper">
+      <table>
+        <thead class="border sticky-top" style="background: linear-gradient(135deg, #6a11cb, #2575fc); top: -1px">
+        <tr>
+          <th class="border py-1 px-2 text-center text-white">№</th>
+          <th class="border py-1 px-2 text-center text-white">From -> Word</th>
+          <th class="border py-1 px-2 text-center text-white">To -> Translation</th>
+          <th class="border py-1 px-2 text-center text-white sentence-column">Sentence</th>
+        </tr>
+        </thead>
+        <ng-container *ngFor="let item of vocabularies | paginate: { itemsPerPage: 20, currentPage }">
+          <tr [ngClass]="{'current-reading': currentReadingItem === item.id}">
+            <td class="align-top border py-2 px-2 text-center">
+              <div class="gradient-text">{{ item?.index }}</div>
+              <div class="gradient-text" style="font-size: 10px; margin-top: -3px" *ngIf="item?.date">
+                {{ item.date | date: 'dd.MM.YYYY' }}
+              </div>
+            </td>
+            <td class="border position-relative">
+        <textarea
+          class="d-block w-100 h-100 bg-transparent border-0 fw-bold"
+          [(ngModel)]="item.word"
+          (focusout)="updateVocabulary(item)"
+          (keydown.enter)="$event.preventDefault(); updateVocabulary(item)"
+        ></textarea>
+              <img width="20"
+                   style="position: absolute; top: 1px; right: 1px; cursor:pointer;"
+                   class="position-absolute"
+                   src="assets/voice.png"
+                   (click)="textToSpeech(item?.word)"
+                   alt=""
+                   height="20">
+            </td>
+            <td class="border position-relative">
+        <textarea
+          class="d-block w-100 h-100 bg-transparent border-0"
+          [(ngModel)]="item.definition"
+          (focusout)="updateVocabulary(item)"
+          (keydown.enter)="$event.preventDefault(); updateVocabulary(item)"
+        ></textarea>
+              <img width="20"
+                   style="position: absolute; top: 1px; right: 1px; cursor:pointer;"
+                   class="position-absolute d-block d-md-none"
+                   src="assets/sentences.svg"
+                   (click)="item.sentencesMobile = !item.sentencesMobile"
+                   alt=""
+                   height="20">
+            </td>
+            <td class="border d-none d-md-table-cell">
+        <textarea
+          class="d-block w-100 h-100 bg-transparent border-0"
+          [(ngModel)]="item.sentences"
+          (focusout)="updateVocabulary(item)"
+          (keydown.enter)="$event.preventDefault(); updateVocabulary(item)"
+        ></textarea>
+            </td>
+          </tr>
+          <tr *ngIf="item?.sentencesMobile">
+            <td class="border" colspan="4">
+        <textarea
+          class="d-block w-100 h-100 bg-transparent border-0 py-2 px-3"
+          [(ngModel)]="item.sentences"
+          (focusout)="updateVocabulary(item)"
+          (keydown.enter)="$event.preventDefault(); updateVocabulary(item)"
+        ></textarea>
+            </td>
+          </tr>
+        </ng-container>
+      </table>
+
+      <table style="border-spacing: 40px !important;" *ngIf="loading">
+            <tr *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]">
+                <td style="width: 10%; overflow: hidden">
+                    <div style="height: 50px" class="skeleton"></div>
+                </td>
+
+                <td style="width: 45%; overflow: hidden">
+                    <div style="height: 50px" class="skeleton"></div>
+                </td>
+
+                <td style="width: 45%; overflow: hidden">
+                    <div style="height: 50px" class="skeleton"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
